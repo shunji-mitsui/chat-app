@@ -2,6 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './user/user.entity';
+import { UserAuth } from './auth/auth.entity';
 
 @Module({
   imports: [
@@ -12,9 +16,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: 'root',
       password: 'password',
       database: 'chat',
-      entities: [],
+      entities: [User, UserAuth],
       synchronize: true,
     }),
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
