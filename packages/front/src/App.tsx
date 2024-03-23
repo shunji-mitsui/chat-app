@@ -6,9 +6,19 @@ import './App.css';
 function App() {
   const [count, setCount] = useState(0);
 
+  const onClick = () => {
+    fetch('http://localhost:3000')
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
   return (
     <>
       <div>
+        <button onClick={onClick}>クリック</button>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>

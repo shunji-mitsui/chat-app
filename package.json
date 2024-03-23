@@ -2,8 +2,8 @@
   "scripts": {
     "api": "npm -C packages/api",
     "front": "npm -C packages/front",
-    "lint:front":"npm -C packages/front run lint",
-    "lint:api":"npm -C packages/api run lint",
+    "lint:front": "npm -C packages/front run lint",
+    "lint:api": "npm -C packages/api run lint",
     "fix:lint": "run-p lint:*",
     "format": "prettier . --write",
     "test": "echo \"Error: no test specified\" && exit 1"

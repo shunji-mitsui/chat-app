@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  front-server:
+    container_name: front
+    build:
+      context: ./packages/front
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./packages/front:/app # ローカルファイルをコンテナ内にマウント
+    networks:
+      - app_network
+
+  api-server:
+    container_name: api
+    build:
+      context: ./packages/api
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./packages/api:/app
+    depends_on:
+      - db # dbが起動していることを待機
+    networks:
+      - app_network
+  db:
+    container_name: db
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: chat
+      MYSQL_USER: chat
+      MYSQL_PASSWORD: password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+volumes:
+  pgdata:
+networks:
+  app_network:
+    driver: bridge
