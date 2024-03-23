@@ -32,12 +32,11 @@ export class AuthService {
       });
       await this.usersRepository.save(newUser);
       const newUserAuth = await this.userAuthRepository.create({
-          userId:newUser.id,
-          email,
-          password: hashedPassword,
-        });
+        userId: newUser.id,
+        email,
+        password: hashedPassword,
+      });
       await this.userAuthRepository.save(newUserAuth);
-
     } catch (error) {
       if (error instanceof Error) {
         console.log({ message: error.message });
@@ -63,7 +62,6 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid email or password');
     }
-    console.log({user})
 
     const accessToken = jwt.sign({ userId: user.userId }, 'secret-key', {
       expiresIn: 1800,
@@ -75,7 +73,7 @@ export class AuthService {
   async signOut({ userId }: { userId: string }) {}
 
   async me({ userId }: { userId: string }) {
-    const user = await this.usersRepository.findOne({ where: { id:userId } });
+    const user = await this.usersRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new UnauthorizedException();
     }
