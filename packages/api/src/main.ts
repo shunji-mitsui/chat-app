@@ -6,7 +6,8 @@ declare const module: any;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: 'http://localhost:5173', // 特定のオリジンを許可
+    origin: '*', // 特定のオリジンを許可
+    // origin: 'http://localhost:5173', // 特定のオリジンを許可
     methods: '*', // 許可するHTTPメソッド
     allowedHeaders: '*', // すべてのヘッダーを許可
   });

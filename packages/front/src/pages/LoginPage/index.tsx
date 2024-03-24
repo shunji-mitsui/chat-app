@@ -6,15 +6,23 @@ const { Item } = Form;
 const LoginPage = () => {
   const navigate = useNavigate();
   // ログインフォームの送信ハンドラー
-  const onFinish = (inputValue: { email: string; password: string }) => {
-    navigate('/users');
-    console.log('Success:', inputValue);
-    // ここにログイン処理を実装します
+  const onFinish = async (inputValue: { email: string; password: string }) => {
+    await fetch('http://localhost:3000/auth/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: inputValue.email,
+        password: inputValue.password,
+      }),
+    }).then(async (response) => {
+      const { accessToken } = await response.json();
+      localStorage.setItem('accessToken', accessToken);
+      navigate('/users');
+    });
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
   return (
     <Card
       title="Chat-App ログイン"
@@ -30,7 +38,6 @@ const LoginPage = () => {
         name="loginForm"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
         style={{ textAlign: 'center' }}
         labelCol={{ span: 24 }}
